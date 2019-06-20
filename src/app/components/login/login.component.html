@@ -1,0 +1,21 @@
+<div fxLayout="row" fxLayoutAlign="center" class="login-main">
+  <mat-card >
+    <mat-card-header>
+      <mat-card-title>{{ 'PAGES.login.header' | translate }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content fxLayout="column">
+      <mat-form-field>
+        <input matInput placeholder="{{ 'PAGES.login.email_placeholder' | translate }}">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="password" matInput placeholder="{{ 'PAGES.login.password_placeholder' | translate }}">
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary">{{ 'PAGES.login.button' | translate }}</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

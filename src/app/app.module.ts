@@ -8,6 +8,20 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+import { FlexLayoutModule } from '@angular/flex-layout';
+// Material
+import {
+  MatSidenavModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatCardModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatButtonModule,
+  MatListModule } from '@angular/material';
+
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -18,6 +32,7 @@ import { WebviewDirective } from './directives/webview.directive';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -28,7 +43,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     HomeComponent,
-    WebviewDirective
+    WebviewDirective,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +57,18 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: (HttpLoaderFactory),
         deps: [HttpClient]
       }
-    })
+    }),
+    BrowserAnimationsModule,
+    // Material
+    MatSidenavModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatCardModule,
+    MatListModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FlexLayoutModule
   ],
   providers: [ElectronService],
   bootstrap: [AppComponent]

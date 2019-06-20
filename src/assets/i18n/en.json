@@ -1,7 +1,13 @@
 {
   "PAGES": {
       "HOME": {
-          "TITLE": "App works !"
+          "TITLE": "Welcome "
+      },
+      "login": {
+        "header": "Login ",
+        "email_placeholder": "Votre identifiant",
+        "password_placeholder": "Votre mot de passe",
+        "button": "Se connecter"
       }
   }
 }
