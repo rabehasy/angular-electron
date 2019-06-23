@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
@@ -20,7 +20,10 @@ import {
   MatInputModule,
   MatFormFieldModule,
   MatButtonModule,
-  MatListModule } from '@angular/material';
+  MatListModule,
+  MatSnackBarModule,
+  MatProgressBarModule
+} from '@angular/material';
 
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -68,7 +71,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatListModule,
     MatInputModule,
     MatFormFieldModule,
-    FlexLayoutModule
+    MatProgressBarModule,
+    MatSnackBarModule,
+    FlexLayoutModule,
+    ReactiveFormsModule
   ],
   providers: [ElectronService],
   bootstrap: [AppComponent]
