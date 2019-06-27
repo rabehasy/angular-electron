@@ -1,5 +1,9 @@
-<div class="container">
-  <h1 class="title">
-    {{ 'HOME.TITLE' | translate }}
-  </h1>
+ <div class="container color--white">
+
+
+    <div *ngIf="me">
+      <p>Connecté en tant que : <strong>{{ me.data.username }}</strong></p>
+      <p class="text-center"><a routerLink="/login" [queryParams]="{logout: 1}" class="color--white">Déconnexion</a></p>
+    </div>
+
 </div>

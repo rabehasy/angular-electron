@@ -26,7 +26,10 @@
 
 
       <mat-form-field >
-        <input [attr.disabled]="savedForm" formControlName="password" type="password" matInput placeholder="{{ 'login.password_placeholder' | translate }}">
+        <input [type]="hidePassword ? 'password' : 'text'" [attr.disabled]="savedForm" formControlName="password" matInput placeholder="{{ 'login.password_placeholder' | translate }}">
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
         <mat-error *ngIf="passwordControl.dirty && passwordControl.hasError('required')">{{ 'error.required' | translate }}</mat-error>
         <mat-error *ngIf="passwordControl.dirty && passwordControl.hasError('minlength')">{{ 'error.minlength' | translate }}</mat-error>
         <mat-error *ngIf="passwordControl.dirty && passwordControl.hasError('maxlength')">{{ 'error.maxlength' | translate }}</mat-error>
@@ -34,7 +37,10 @@
     </mat-card-content>
 
     <mat-card-actions align="end">
-      <button mat-raised-button color="primary"  [disabled]="loginForm.invalid || savedForm">{{ 'login.button' | translate }}</button>
+      <button mat-raised-button color="primary"  [disabled]="loginForm.invalid || savedForm">
+        <fa-icon *ngIf="savedForm" [icon]="['fas', 'spinner']" [spin]="true"></fa-icon>
+        {{ 'login.button' | translate }}
+      </button>
     </mat-card-actions>
 
     <mat-progress-bar color="accent" *ngIf="hideForm || savedForm" mode="indeterminate"></mat-progress-bar>

@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS  } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -36,6 +36,15 @@ import { WebviewDirective } from './directives/webview.directive';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+
+import { Interceptor } from './providers/interceptors/interceptor';
+import { ErrorInterceptor } from './providers/interceptors/errorinterceptor';
+
+// Fontawesome
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+library.add(fas);
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -74,9 +83,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatProgressBarModule,
     MatSnackBarModule,
     FlexLayoutModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    // Fontawesome
+    FontAwesomeModule
   ],
-  providers: [ElectronService],
+  providers: [
+    ElectronService,
+    { provide: HTTP_INTERCEPTORS,  useClass: Interceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS,  useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

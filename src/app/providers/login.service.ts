@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { User } from '../models/user';
+import { map, tap  } from "rxjs/operators";
 
-// import * as moment from "moment";
+import { AppConfig } from '../../environments/environment';
 
-const endpoint = 'http://localhost:3008/api/user/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json'
@@ -17,83 +17,71 @@ const httpOptions = {
 })
 export class LoginService {
 
-  constructor(private http: HttpClient) { }
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
 
-  getAll(): Observable<any> {
-    return this.http.get(endpoint).pipe(
-      map(this.extractData));
+  constructor(private http: HttpClient) {
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
+    this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  getSingle(id): Observable<any> {
-    return this.http.get(endpoint  + id).pipe(
-      map(this.extractData));
-  }
-
-  add (data): Observable<any> {
-    console.log(data);
-    return this.http.post<any>(endpoint + 'products', JSON.stringify(data), httpOptions).pipe(
-      tap((product) => console.log(`added data w/ id=${data.id}`)),
-      catchError(this.handleError<any>('add'))
-    );
-  }
-
-  update (id, data): Observable<any> {
-    return this.http.put(endpoint + 'products/' + id, JSON.stringify(data), httpOptions).pipe(
-      tap(_ => console.log(`updated data id=${id}`)),
-      catchError(this.handleError<any>('update'))
-    );
-  }
-
-  delete (id): Observable<any> {
-    return this.http.delete<any>(endpoint + 'products/' + id, httpOptions).pipe(
-      tap(_ => console.log(`deleted product id=${id}`)),
-      catchError(this.handleError<any>('delete'))
-    );
+  public get currentUserValue(): User {
+    return this.currentUserSubject.value;
   }
 
   login (data): Observable<any> {
     // console.log(data);
-    return this.http.post<any>(endpoint + 'login', data, httpOptions).pipe(
-      tap((data) => {
-        // console.log(data);
-        this.setSession(data);
-      }),
-      catchError(this.handleError<any>('login'))
-    );
+    return this.http.post<any>(`${AppConfig.apiUrl}/user/login`, data, httpOptions)
+      .pipe(map(user => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('user', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        return user;
+      }));
   }
 
-  private setSession(authResult) {
-
-    console.log(authResult);
-    localStorage.setItem('id_token', authResult.token);
-    localStorage.setItem("expires_at", authResult.expires );
+  getLoggedIn () {
+    return localStorage.getItem('user');
   }
 
   logout() {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("expires_at");
+    // remove user from local storage to log user out
+    localStorage.removeItem('user');
+    this.currentUserSubject.next(null);
   }
 
-  private setSession(authResult) {
-
-    console.log(authResult);
-    localStorage.setItem('id_token', authResult.token);
-    localStorage.setItem("expires_at", authResult.expires );
+  getAll(): Observable<any> {
+    return this.http.get(`${AppConfig.apiUrl}/user/login`).pipe(
+      map(this.extractData));
   }
 
-  public isLoggedIn() {
-    // return moment().isBefore(this.getExpiration());
+
+  add (data): Observable<any> {
+    console.log(data);
+    return this.http.post<any>(`${AppConfig.apiUrl}/user/login`, JSON.stringify(data), httpOptions).pipe(
+      tap((data) => console.log(`added data w/ id=${data.id}`))
+    );
   }
 
-  isLoggedOut() {
-    // return !this.isLoggedIn();
+  update (id, data): Observable<any> {
+    return this.http.put(`${AppConfig.apiUrl}/user/login/${id}` , JSON.stringify(data), httpOptions).pipe(
+      tap(_ => console.log(`updated data id=${id}`))
+    );
   }
 
-  getExpiration() {
-    const expiration = localStorage.getItem("expires_at");
-    const expiresAt = JSON.parse(expiration);
-    // return moment(expiresAt);
+  delete (id): Observable<any> {
+    return this.http.delete<any>(`${AppConfig.apiUrl}/user/login/${id}`, httpOptions).pipe(
+      tap(_ => console.log(`deleted product id=${id}`))
+    );
   }
+
+
+
+  public getToken(): string {
+    return localStorage.getItem('id_token');
+  }
+
+
 
 
   private handleError<T> (operation = 'operation', result?: T) {

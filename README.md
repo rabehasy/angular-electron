@@ -14,6 +14,7 @@ Forked from https://github.com/maximegris/angular-electron
 - [hammerjs](http://hammerjs.github.io/) - @2.0
 - [angular/material](https://material.angular.io) - @8.0
 - [angular/cdk](https://material.angular.io) - @8.0
-- [fontawesome](https://fontawesome.com) - @5.9
+- [fontawesome](https://fontawesome.com) - @5.9 
+- [angular2-jwt](https://github.com/auth0/angular2-jwt) - @0.2
  
 

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../../providers/login.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { TranslateService } from "@ngx-translate/core";
+
+import { first } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-login',
@@ -16,6 +19,7 @@ export class LoginComponent implements OnInit {
   hideForm: boolean;
   savedForm: boolean;
   errorForm: boolean;
+  hidePassword: boolean = true;
 
   usernameControl: FormControl;
   passwordControl: FormControl;
@@ -24,13 +28,27 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     public service:LoginService,
     private router: Router,
+    private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private translate: TranslateService
   ) {
-    this.createForm();
+
+    let logoutParam = this.route.snapshot.queryParamMap.get('logout');
+    if (logoutParam == '1') {
+      this.logout();
+    }
+
+    // redirect to home if already logged in
+    if (this.service.currentUserValue) {
+      this.router.navigate(['/']);
+    }
+
+
   }
 
   createForm() {
+
+
 
     this.usernameControl = this.fb.control('', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]);
     this.passwordControl = this.fb.control('', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]);
@@ -49,19 +67,21 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
 
-
+    this.savedForm = true;
 
     let values = this.loginForm.value;
     console.log(values);
 
-    this.service.login(values).subscribe((result) => {
+    this.service.login(values)
+      .pipe(first())
+      .subscribe((result) => {
       // result
       console.log(result.token);
       // console.log(typeof result.token === 'undefined');
 
       let tokenUndefined = typeof result.token !== 'undefined';
       this.hideForm = true;
-      this.savedForm = true;
+
 
       if (tokenUndefined) {
         // redirect to home after 10 sec
@@ -90,6 +110,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.createForm();
+  }
+
+  logout () {
+    console.log('here');
+    this.service.logout();
+    // this.router.navigate(['/']);
   }
 
 }
