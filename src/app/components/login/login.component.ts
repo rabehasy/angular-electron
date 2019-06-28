@@ -84,10 +84,7 @@ export class LoginComponent implements OnInit {
 
 
       if (tokenUndefined) {
-        // redirect to home after 10 sec
-        setTimeout(() => {
-          this.router.navigate(['/']);
-        }, 5000);
+        this.router.navigate(['/']);
         return true;
       }
 

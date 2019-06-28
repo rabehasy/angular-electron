@@ -1,7 +1,8 @@
 {
 
     "HOME": {
-        "TITLE": "Welcome "
+        "TITLE": "Welcome ",
+        "logout": "Déconnexion"
     },
     "login": {
       "header": "Identification ",
@@ -14,5 +15,8 @@
       "required": "Obligatoire",
       "minlength": "Le nombre minimum de caractère non atteint",
       "maxlength": "Le nombre maximum de caractère dépassé"
+    },
+    menu: {
+      "event" : "Evénements"
     }
 }

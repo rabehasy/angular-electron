@@ -21,6 +21,7 @@ import {
   MatFormFieldModule,
   MatButtonModule,
   MatListModule,
+  MatExpansionModule,
   MatSnackBarModule,
   MatProgressBarModule
 } from '@angular/material';
@@ -82,6 +83,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatFormFieldModule,
     MatProgressBarModule,
     MatSnackBarModule,
+    MatExpansionModule,
     FlexLayoutModule,
     ReactiveFormsModule,
     // Fontawesome

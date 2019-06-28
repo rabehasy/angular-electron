@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { LoginService } from './providers/login.service';
 import { User } from './models/user';
+import { NavItem } from './models/navitem';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,8 @@ export class AppComponent {
 
   currentUser: User;
 
+  menu: NavItem [] = [];
+
   constructor(
     public electronService: ElectronService,
     private translate: TranslateService,
@@ -25,6 +28,47 @@ export class AppComponent {
 
     translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
+
+    this.menu = [
+
+      {
+        displayName:'Evénements' ,
+        iconName: 'folder',
+        route: 'escritorio',
+      },
+      {
+        displayName: 'Entradas GADE',
+        iconName: 'folder',
+        route: 'entradasGADE',
+      },
+      {
+        displayName: 'Expedientes',
+        iconName: 'folder',
+        children: [
+          {
+            displayName: 'Mis Expedientes',
+            iconName: 'folder',
+            route: '/misexpedientes'
+          },
+          {
+            displayName: 'Todos',
+            iconName: 'folder',
+            route: '/todos'
+          }
+        ]
+      },
+      {
+        displayName: 'Perfiles',
+        iconName: 'folder',
+        children: [
+          {
+            displayName: 'Búsqueda Perfil',
+            iconName: 'folder',
+            route: '/busquedaperfiles'
+          }
+        ]
+      }
+    ];
 
 
 
