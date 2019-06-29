@@ -1,4 +1,3 @@
-/*
 @import '~@angular/material/theming';
 
 @include mat-core();
@@ -9,4 +8,4 @@ $custom-accent:  mat-palette($mat-pink);
 $custom-theme: mat-light-theme($custom-primary, $custom-accent);
 
 @include angular-material-theme($custom-theme);
-*/
+

@@ -15,8 +15,5 @@
       "required": "Obligatoire",
       "minlength": "Le nombre minimum de caractère non atteint",
       "maxlength": "Le nombre maximum de caractère dépassé"
-    },
-    menu: {
-      "event" : "Evénements"
     }
 }

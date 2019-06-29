@@ -45,6 +45,8 @@ import { ErrorInterceptor } from './providers/interceptors/errorinterceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { EventComponent } from './components/event/event.component';
+import { LieuxComponent } from './components/lieux/lieux.component';
 library.add(fas);
 
 // AoT requires an exported function for factories
@@ -57,7 +59,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HomeComponent,
     WebviewDirective,
-    LoginComponent
+    LoginComponent,
+    EventComponent,
+    LieuxComponent
   ],
   imports: [
     BrowserModule,

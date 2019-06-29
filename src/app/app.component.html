@@ -1,46 +1,13 @@
 <mat-sidenav-container fullscreen>
   <mat-sidenav #sidenav class="app-sidenav">
     <mat-toolbar color="primary">
-      <!--future svg to go here-->
       <span class="toolbar-filler"></span>
-
     </mat-toolbar>
     <mat-nav-list>
-        <span *ngFor="let item of menu">
-          <span *ngIf="item.children && item.children.length > 0">
-            <mat-accordion>
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    <!-- Cabeceras del submenu -->
-                    <div fxLayout="row" fxLayoutAlign="space-between center" >
-                      <mat-icon>{{item.iconName}}</mat-icon>
-                      {{   item.displayName  }}
-                    </div>
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <span *ngFor="let child of item.children">
-                  <mat-list-item routerLink="[child.route]">
-                    <!-- Entradas de cada submenú  -->
-                    <div fxLayout="row" fxLayoutAlign="space-between center" >
-                      <mat-icon>{{child.iconName}}</mat-icon>
-                      {{child.displayName}}
-                    </div>
-                  </mat-list-item>
-                </span>
-              </mat-expansion-panel>
-            </mat-accordion>
-          </span>
-          <span *ngIf="!item.children || item.children.length === 0">
-            <mat-list-item routerLink="[item.route]">
-              <!-- Entradas principales -->
-              <div fxLayout="row" fxLayoutAlign="space-between center">
-                <mat-icon>{{item.iconName}}</mat-icon>
-                {{item.displayName}}
-              </div>
-            </mat-list-item>
-          </span>
-        </span>
+        <mat-list-item (click)="sidenav.toggle()" [routerLink]="item.route" *ngFor="let item of menu">
+            <mat-icon>{{item.icon}}</mat-icon>
+            {{item.name}}
+        </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
   <mat-toolbar  *ngIf="currentUser" id="appToolbar"  color="primary">
@@ -51,8 +18,7 @@
       <a class="title-link">{{title}}</a>
     </h1>
     <span class="toolbar-filler"></span>
-    <!--<button id="button-login" mat-button [routerLink]="['/signupin']" *ngIf="!(user | async)">Log In</button>-->
-    <button id="button-logout" mat-button (click)="logout()">{{ 'HOME.logout' | translate }}</button>
+    <button id="button-logout" mat-button (click)="logout()">logout</button>
   </mat-toolbar>
   <router-outlet></router-outlet>
 </mat-sidenav-container>

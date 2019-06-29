@@ -30,43 +30,20 @@ export class AppComponent {
     console.log('AppConfig', AppConfig);
 
     this.menu = [
-
       {
-        displayName:'Evénements' ,
-        iconName: 'folder',
-        route: 'escritorio',
+        name:'Dashboard' ,
+        icon: 'home',
+        route: '/'
       },
       {
-        displayName: 'Entradas GADE',
-        iconName: 'folder',
-        route: 'entradasGADE',
+        name:'Evénements' ,
+        icon: 'folder',
+        route: '/event'
       },
       {
-        displayName: 'Expedientes',
-        iconName: 'folder',
-        children: [
-          {
-            displayName: 'Mis Expedientes',
-            iconName: 'folder',
-            route: '/misexpedientes'
-          },
-          {
-            displayName: 'Todos',
-            iconName: 'folder',
-            route: '/todos'
-          }
-        ]
-      },
-      {
-        displayName: 'Perfiles',
-        iconName: 'folder',
-        children: [
-          {
-            displayName: 'Búsqueda Perfil',
-            iconName: 'folder',
-            route: '/busquedaperfiles'
-          }
-        ]
+        name: 'Lieux',
+        icon: 'folder',
+        route: '/lieux'
       }
     ];
 
