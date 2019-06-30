@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginService } from '../../providers/login.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { TranslateService } from "@ngx-translate/core";
+  import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+  import { LoginService } from '../../providers/login.service';
+  import { Router, ActivatedRoute } from '@angular/router';
+  import { MatSnackBar } from '@angular/material';
+  import { TranslateService } from "@ngx-translate/core";
 
 import { first } from 'rxjs/operators';
 
@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
     private translate: TranslateService
   ) {
 
+    // if url "/login?logout=1"
     let logoutParam = this.route.snapshot.queryParamMap.get('logout');
     if (logoutParam == '1') {
       this.logout();
@@ -67,42 +68,39 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
 
+    // True == form en cours de traitement
     this.savedForm = true;
 
-    let values = this.loginForm.value;
-    console.log(values);
+    // supprimer les messages d'erreurs
+    this.errorForm = false;
 
+    // Valeurs des champs du formulaire
+    let values = this.loginForm.value;
+
+    // Service LoginService
     this.service.login(values)
       .pipe(first())
       .subscribe((result) => {
-      // result
-      console.log(result.token);
-      // console.log(typeof result.token === 'undefined');
 
-      let tokenUndefined = typeof result.token !== 'undefined';
+      // Token existe dans retour API
+      let tokenExists = typeof result.token !== 'undefined';
+
+      // Cacher le formulaire et preparer la redirection vers la home
       this.hideForm = true;
 
-
-      if (tokenUndefined) {
+      if (tokenExists) {
         this.router.navigate(['/']);
         return true;
       }
 
-      // Show error
-      this.hideForm = false;
-      this.savedForm = false;
-      this.errorForm = true;
-
-      let msgSnack = this.translate.instant('error.form');
-      this._snackBar.open(msgSnack, null, {
-        duration: 5000,
-      });
-
+      // Afficher error en cas d'echec
+      this.setFormError();
 
     }, (err) => {
       console.log(err);
-    });
-
+        // Afficher error en cas d'echec
+        this.setFormError();
+      });
 
   }
 
@@ -111,9 +109,24 @@ export class LoginComponent implements OnInit {
   }
 
   logout () {
-    console.log('here');
     this.service.logout();
-    // this.router.navigate(['/']);
+  }
+
+  setFormError() {
+    // Afficher le formulaire
+    this.hideForm = false;
+
+    // Le formulaire n'est plus en cours de traitement
+    this.savedForm = false;
+
+    // Afficher les messages d'erreurs
+    this.errorForm = true;
+
+    // Afficher notif dans snackbar
+    let msgSnack = this.translate.instant('error.form');
+    this._snackBar.open(msgSnack, null, {
+      duration: 5000,
+    });
   }
 
 }

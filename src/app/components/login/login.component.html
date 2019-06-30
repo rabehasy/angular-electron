@@ -18,7 +18,7 @@
       </div>
 
       <mat-form-field>
-        <input [attr.disabled]="savedForm" [readonly]="savedForm" formControlName="username" matInput placeholder="{{ 'login.email_placeholder' | translate }}">
+        <input [attr.disabled]="savedForm ? '' : null" [readonly]="savedForm" formControlName="username" matInput placeholder="{{ 'login.email_placeholder' | translate }}">
         <mat-error *ngIf="usernameControl.dirty && usernameControl.hasError('required')">{{ 'error.required' | translate }}</mat-error>
         <mat-error *ngIf="usernameControl.dirty && usernameControl.hasError('minlength')">{{ 'error.minlength' | translate }}</mat-error>
         <mat-error *ngIf="usernameControl.dirty && usernameControl.hasError('maxlength')">{{ 'error.maxlength' | translate }}</mat-error>
@@ -26,10 +26,10 @@
 
 
       <mat-form-field >
-        <input [type]="hidePassword ? 'password' : 'text'" [attr.disabled]="savedForm" formControlName="password" matInput placeholder="{{ 'login.password_placeholder' | translate }}">
-        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+        <input [type]="hidePassword ? 'password' : 'text'" [attr.disabled]="savedForm ? '' : null" formControlName="password" matInput placeholder="{{ 'login.password_placeholder' | translate }}">
+        <a mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
+        </a>
         <mat-error *ngIf="passwordControl.dirty && passwordControl.hasError('required')">{{ 'error.required' | translate }}</mat-error>
         <mat-error *ngIf="passwordControl.dirty && passwordControl.hasError('minlength')">{{ 'error.minlength' | translate }}</mat-error>
         <mat-error *ngIf="passwordControl.dirty && passwordControl.hasError('maxlength')">{{ 'error.maxlength' | translate }}</mat-error>

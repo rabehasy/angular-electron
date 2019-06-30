@@ -33,6 +33,7 @@ export class LoginService {
     // console.log(data);
     return this.http.post<any>(`${AppConfig.apiUrl}/user/login`, data, httpOptions)
       .pipe(map(user => {
+        console.log(user);
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
         this.currentUserSubject.next(user);
