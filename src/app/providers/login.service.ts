@@ -41,66 +41,10 @@ export class LoginService {
       }));
   }
 
-  getLoggedIn () {
-    return localStorage.getItem('user');
-  }
 
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
-  }
-
-  getAll(): Observable<any> {
-    return this.http.get(`${AppConfig.apiUrl}/user/login`).pipe(
-      map(this.extractData));
-  }
-
-
-  add (data): Observable<any> {
-    console.log(data);
-    return this.http.post<any>(`${AppConfig.apiUrl}/user/login`, JSON.stringify(data), httpOptions).pipe(
-      tap((data) => console.log(`added data w/ id=${data.id}`))
-    );
-  }
-
-  update (id, data): Observable<any> {
-    return this.http.put(`${AppConfig.apiUrl}/user/login/${id}` , JSON.stringify(data), httpOptions).pipe(
-      tap(_ => console.log(`updated data id=${id}`))
-    );
-  }
-
-  delete (id): Observable<any> {
-    return this.http.delete<any>(`${AppConfig.apiUrl}/user/login/${id}`, httpOptions).pipe(
-      tap(_ => console.log(`deleted product id=${id}`))
-    );
-  }
-
-
-
-  public getToken(): string {
-    return localStorage.getItem('id_token');
-  }
-
-
-
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
-
-  private extractData(res: Response) {
-    let body = res;
-    return body || { };
   }
 }

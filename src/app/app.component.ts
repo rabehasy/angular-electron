@@ -51,7 +51,6 @@ export class AppComponent {
 
     this.loginService.currentUser.subscribe(x => this.currentUser = x);
 
-    console.log(this.loginService.getLoggedIn());
 
     if (electronService.isElectron()) {
       console.log('Mode electron');
