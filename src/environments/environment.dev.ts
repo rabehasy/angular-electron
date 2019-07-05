@@ -6,5 +6,6 @@
 export const AppConfig = {
   production: false,
   environment: 'DEV',
-  apiUrl: 'http://localhost:3008/api'
+  apiUrl: 'http://localhost:3008/api',
+  configFile: 'token.json'
 };
