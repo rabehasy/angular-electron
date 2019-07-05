@@ -1,5 +1,6 @@
 export const AppConfig = {
   production: false,
   environment: 'LOCAL',
-  apiUrl: 'http://localhost:3008/api'
+  apiUrl: 'http://localhost:3008/api',
+  configFile: 'token.json'
 };

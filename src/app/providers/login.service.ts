@@ -6,6 +6,9 @@ import { map, tap  } from "rxjs/operators";
 
 import { AppConfig } from '../../environments/environment';
 
+import { StorageService } from './storage.service';
+import { ElectronService } from './electron.service';
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json'
@@ -19,13 +22,21 @@ export class LoginService {
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  public storage: StorageService;
 
-  constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
+
+  constructor(
+    private http: HttpClient,
+    private electron: ElectronService
+  ) {
+    this.electron = electron;
+    this.storage = new StorageService(electron);
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.storage.get('user')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue(): User {
+    console.log('this.currentUserSubject.value',this.currentUserSubject.value);
     return this.currentUserSubject.value;
   }
 
@@ -35,19 +46,19 @@ export class LoginService {
       .pipe(map(user => {
         console.log(user);
         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('user', JSON.stringify(user));
+        this.storage.save('user', user);
         this.currentUserSubject.next(user);
         return user;
       }));
   }
 
   getLoggedIn () {
-    return localStorage.getItem('user');
+    return this.storage.get('user');
   }
 
   logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('user');
+    this.storage.remove('user');
     this.currentUserSubject.next(null);
   }
 
@@ -79,7 +90,7 @@ export class LoginService {
 
 
   public getToken(): string {
-    return localStorage.getItem('id_token');
+    return this.storage.get('id_token');
   }
 
 

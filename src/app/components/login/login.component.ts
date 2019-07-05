@@ -34,10 +34,8 @@ export class LoginComponent implements OnInit {
   ) {
 
     // if url "/login?logout=1"
-    let logoutParam = this.route.snapshot.queryParamMap.get('logout');
-    if (logoutParam == '1') {
-      this.logout();
-    }
+    //  let logoutParam = this.route.snapshot.queryParamMap.get('logout');
+
 
     // redirect to home if already logged in
     if (this.service.currentUserValue) {

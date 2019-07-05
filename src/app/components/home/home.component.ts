@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { User } from '../../models/user';
 import { UserService } from '../../providers/user.service';
+import {LoginService} from "../../providers/login.service";
 
 @Component({
   selector: 'app-home',
@@ -17,20 +19,23 @@ export class HomeComponent implements OnInit {
 
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private loginService: LoginService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.loading = true;
-    this.userService.all().pipe(first()).subscribe(users => {
-      this.loading = false;
-      this.users = users;
-    });
 
     this.userService.me().pipe(first()).subscribe(me => {
       this.loading = false;
       this.me = me;
     });
+  }
+
+  logout() {
+    this.loginService.logout();
+    this.router.navigate(['/login']);
   }
 
 }

@@ -94,6 +94,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "angular2-jwt": "^0.2.3",
+    "electron-store": "^4.0.0",
     "hammerjs": "^2.0.8",
     "tailwindcss": "^1.0.4"
   }
