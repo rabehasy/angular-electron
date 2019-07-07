@@ -16,5 +16,8 @@ Forked from https://github.com/maximegris/angular-electron
 - [angular/cdk](https://material.angular.io) - @8.0
 - [fontawesome](https://fontawesome.com) - @5.9  
 - [tailwindcss](https://tailwindcss.com/) - @1.0
+- nedb@1.8.0
+- @types/nedb@1.8.7
+
  
 
