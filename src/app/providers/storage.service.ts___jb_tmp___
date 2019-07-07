@@ -32,6 +32,12 @@ export class StorageService  {
       this.electron.fs.writeFileSync(this.configFile, JSON.stringify(data));
 
       // Save nedb
+      console.log(this.electron.remote.app.getPath('userData') + '/database.txt')
+      this.db = new Datastore( this.electron.remote.app.getPath('userData') + '/database.txt' ); // C:\Users\Miary\AppData\Roaming\angular-electron\database.nedb
+      this.db.loadDatabase();
+      this.db.find({}, function (err, docs) {
+        console.log(docs);
+      });
       this.db.insert({ username: 'content' }, (err, user) => {
         if (err) console.warn(err)
         console.log(user);
@@ -69,9 +75,11 @@ export class StorageService  {
     this.configFile = this.electron.remote.app.getPath('userData') + '/' + AppConfig.configFile; // C:\Users\Miary\AppData\Roaming\angular-electron\paramApp.json
     this.confExists = this.electron.fs.existsSync(this.configFile);
 
-    this.db = new Datastore({
-      filename: this.electron.remote.app.getPath('userData') + '/database.nedb' , // C:\Users\Miary\AppData\Roaming\angular-electron\database.nedb
-      autoload: true
-    });
+    this.db = new Datastore( this.electron.remote.app.getPath('userData') + '/database.txt' ); // C:\Users\Miary\AppData\Roaming\angular-electron\database.nedb
+    this.db.loadDatabase();
+
+    /*this.db.find({}, function (err, docs) {
+      console.log(docs);
+    });*/
   }
 }
